@@ -26,7 +26,10 @@ package com.shady.java.compiler.lexer;
  * term -> term * unary | term / unary | unary
  * unary -> ! unary | - unary | factor
  * factor -> (bool) | loc | num | real | true | false
- * 
+ *
+ * Any context-free grammar can be parsed in O(n^3) but effectively
+ * all real programming languages can be parsed in linear time.
+ *
  * Created by shady on 20/05/15.
  */
 public class Lexer {
