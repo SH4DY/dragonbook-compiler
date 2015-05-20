@@ -14,6 +14,10 @@ public class Tag {
     public static final int MINUS = 262;
     public static final int TRUE = 263;
     public static final int FALSE = 264;
-    public static final int TEMP = 265;
-
+    public static final int IF = 265;
+    public static final int ELSE = 265;
+    public static final int WHILE = 265;
+    public static final int DO = 265;
+    public static final int BREAK = 265;
+    public static final int ID = 265;
 }
