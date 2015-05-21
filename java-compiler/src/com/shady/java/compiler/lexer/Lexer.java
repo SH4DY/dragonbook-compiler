@@ -1,6 +1,7 @@
 package com.shady.java.compiler.lexer;
 
 import com.shady.java.compiler.reader.Reader;
+import com.shady.java.compiler.symbols.Type;
 
 import java.util.HashMap;
 
@@ -79,6 +80,8 @@ public class Lexer {
             else break;
         }
 
+        //TODO Expand lexer to skip comments
+
         //Check for composite tokens like != etc.
         switch(peek){
             case '&':
@@ -93,7 +96,7 @@ public class Lexer {
                 if(readch('=')) return Word.leq; else return new Token('<');
             case '>':
                 if(readch('=')) return Word.geq; else return new Token('>');
-        }
+        }//TODO Expand lexer to understand < and > as well
 
         //Put together digits
         if(Character.isDigit(peek)){
