@@ -1,5 +1,6 @@
 package com.shady.java.compiler.symbols;
 
+import com.shady.java.compiler.inter.Id;
 import com.shady.java.compiler.lexer.Token;
 
 import java.util.HashMap;
