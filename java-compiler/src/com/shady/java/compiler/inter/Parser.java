@@ -163,7 +163,7 @@ public class Parser {
     Expr bool(){
         Expr x = join();
         while(mLook.mTag == Tag.OR){
-            Token tok = look;
+            Token tok = mLook;
             move();
             x = new Or(tok, x, join());
         }
@@ -225,5 +225,68 @@ public class Parser {
             return new Not(tok, unary());
         }
         else return factor();
+    }
+
+    Expr factor(){
+        Expr x = null;
+        switch (mLook.mTag){
+            case '(':
+                move();
+                x = bool();
+                match(')');
+                return x;
+            case Tag.NUM:
+                x = new Constant(mLook, Type.Int);
+                move();
+                return x;
+            case Tag.REAL:
+                x = new Constant(mLook, Type.Float);
+                move();
+                return x;
+            case Tag.TRUE:
+                x = Constant._true;
+                move();
+                return x;
+            case Tag.FALSE:
+                x = Constant._false;
+                move();
+                return x;
+            default:
+                error("syntax error");
+                return x;
+            case Tag.ID:
+                String s = mLook.toString();
+                Id id = top.get(mLook);
+                if(id == null) error(mLook.toString() + " undeclared");
+                move();
+                if(mLook.mTag != '[') return id;
+                else return offset(id);
+        }
+    }
+
+    Access offset(Id a){ //I -> [E] | [E] I
+        Expr i;
+        Expr w;
+        Expr t1, t2;
+        Expr loc; //inherit id
+        Type type = a.mType;
+        match('[');
+        i = bool();
+        match(']'); //first index, I -> [E]
+        type = ((Array)type).mType;
+        w = new Constant(type.mWidth);
+        t1 = new Arith(new Token('*'), i, w);
+        loc = t1;
+        while (mLook.mTag == '[') { //nested array I -> [E] I
+            match('[');
+            i = bool();
+            match(']');
+            type = ((Array)type).mType;
+            w = new Constant(type.mWidth);
+            t1 = new Arith(new Token('*'), i, w);
+            t2 = new Arith(new Token('+'), loc, t1);
+            loc = t2;
+        }
+        return new Access(a, loc, type);
     }
 }

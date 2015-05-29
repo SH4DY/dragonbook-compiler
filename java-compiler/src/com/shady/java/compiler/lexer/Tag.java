@@ -24,4 +24,5 @@ public class Tag {
     public static final int TEMP = 272;
     public static final int BASIC = 273;
     public static final int NUM = 274;
+    public static final int REAL = 275;
 }
